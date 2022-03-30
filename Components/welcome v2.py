@@ -16,6 +16,6 @@ welcome_msg = ["Welcome to Joaquins PC Store", name_msg, "I will be here to help
 print("\n\n\n")
 # Center text
 for x in range(len(welcome_msg)):
-    print(str("***** " + welcome_msg[x] + " *****").center(200," "))
+    print(str("***** " + welcome_msg[x] + " *****").center(100," "))
 print("\n\n\n")
 
