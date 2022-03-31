@@ -21,10 +21,22 @@ def welcome():
         print(str("***** " + welcome_msg[x] + " *****").center(100," "))
     print("\n\n\n")
 
+# Menu so that user can choose either delivery or click & collect
+def order_type():
+    print("\nWould you like your order delivered or click & collected?\n\nFor delivery enter 'D'\nFor click & collect enter 'C'")
+    # Loops the code inside until user enters a valid input 'C' or 'D'
+    while True:
+        # Asks for letter and capitalises it
+        delivery = input("\nPlease enter a letter: ").upper()
+        if delivery == "C":
+            print("\nYou have selected click & collect\n")
+            break
+        elif delivery == "D":
+            print("\nYou have selected delivery\n")
+            break
+        else:
+            print("The input must be 'C' or 'D'")
 
-    
-
-# Menu for click & collect or delivery
 
 # Click & collect information - name and phone number
 
@@ -45,4 +57,14 @@ def welcome():
 # Payment method
 
 # Main function
-welcome()
+def main():
+    '''
+    Purpose: To run all functions
+    a welcome message
+    Parameters: None
+    Returns: None
+    '''
+    welcome()
+    order_type()
+
+main()
