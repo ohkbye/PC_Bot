@@ -1,3 +1,5 @@
+# Bug - accepts blank input
+
 print("Please enter the click & collect information")
 
 # Customer name
