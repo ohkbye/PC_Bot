@@ -1,18 +1,39 @@
 # PC bot program
+# 6/4/2022
+# Bugs - Phone number input allows letters
+#      - Name input allows numbers
+
+# Importing randint from random module
 from random import randint
 
 # List of random names
 names = ["Karlos", "Marcus", "Jaiden", "Railey", "Ivan", "James", "Joaquin", "Einstein", "Mikara", "Sharun", 
 "Tomas", "Matt", "Levi", "Dennis", "Ochre", "Carlos", "Navhil", "George", "Billy", "Noel"]
+# Customer details dictionary
+customer_details = {}
+
+# Validates inputs to check if they are blank
+def not_blank(question):
+    valid = False
+    while not valid:
+        response = input(question)
+        if response != "":
+            return response
+        else:
+            print("This cannot be blank")
 
 # Welcome message with random name
 def welcome():
+    '''
+    Purpose: To generate a random name from the list and print out
+    a welcome message
+    Parameters: None
+    Returns: None
+    '''
     # Creating an integer variable, num with a random value from 0 to 9
     num = randint(0, 9)
-
     # Picking a random name from the names list and making it a string
     name_msg = "My name is " + names[num]
-
     # Print welcome message
     welcome_msg = ["Welcome to Joaquins PC Store", name_msg, "I will be here to help you order your PC component"]
     print("\n\n\n")
@@ -30,15 +51,26 @@ def order_type():
         delivery = input("\nPlease enter a letter: ").upper()
         if delivery == "C":
             print("\nYou have selected click & collect\n")
+            clickcollect()
             break
         elif delivery == "D":
             print("\nYou have selected delivery\n")
+            delivery()
             break
         else:
             print("The input must be 'C' or 'D'")
 
 
 # Click & collect information - name and phone number
+def clickcollect():
+    question = "Please enter your name: "
+    customer_details['name'] = not_blank(question)
+    print(customer_details['name'])
+
+    question = "Please enter your phone number: "
+    customer_details['phone'] = not_blank(question)
+    print(customer_details['phone'])
+
 
 # Delivery informtion - name, address and phone
 
@@ -66,5 +98,6 @@ def main():
     '''
     welcome()
     order_type()
+    
 
 main()
