@@ -51,18 +51,18 @@ def order_type():
         delivery = input("\nPlease enter a letter: ").upper()
         if delivery == "C":
             print("\nYou have selected click & collect\n")
-            clickcollect()
+            clickcollect_info()
             break
         elif delivery == "D":
             print("\nYou have selected delivery\n")
-            delivery()
+            delivery_info()
             break
         else:
             print("The input must be 'C' or 'D'")
 
 
 # Click & collect information - name and phone number
-def clickcollect():
+def clickcollect_info():
     question = "Please enter your name: "
     customer_details['name'] = not_blank(question)
     print(customer_details['name'])
@@ -73,6 +73,26 @@ def clickcollect():
 
 
 # Delivery informtion - name, address and phone
+def delivery_info():
+    question = "Please enter your name: "
+    customer_details['name'] = not_blank(question)
+    print(customer_details['name'])
+
+    question = "Please enter your phone number: "
+    customer_details['phone'] = not_blank(question)
+    print(customer_details['phone'])
+
+    question = "Please enter your house number: "
+    customer_details['house'] = not_blank(question)
+    print(customer_details['house'])
+
+    question = "Please enter your street name: "
+    customer_details['street'] = not_blank(question)
+    print(customer_details['street'])
+
+    question = "Please enter your suburb: "
+    customer_details['suburb'] = not_blank(question)
+    print(customer_details['suburb'])
 
 # Choose type of PC component
 
