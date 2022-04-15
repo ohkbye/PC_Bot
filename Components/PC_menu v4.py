@@ -9,6 +9,7 @@ components = [["AMD CPU", "Intel CPU"], ["SSD", "HDD"], ["ATX Motherboard", "Mic
 ["Nvidia GeForce Graphics Card", "AMD Radeon Graphics Card"], ["Windows 10 Operating System", "Windows 8 Operating System"],
 ["Full Tower PC Case", "Mid Tower PC Case", "Mini Tower PC Case"]]
 component_cost = [[199, 239], [149, 99], [69, 59, 49], [79, 69, 59], [29, 39, 49], [269, 249], [29, 19], [49, 39, 29]]
+
 def item_selection():
     print("\nHere are the available types of", component_types[component_selection - 1])
     for x in range(len(components[component_selection - 1])):
@@ -19,6 +20,7 @@ def item_selection():
             num_input = int(input("Please enter a number: "))
             for x in range(len(components[component_selection - 1])):
                 if num_input == x + 1:
+                    global selected_item
                     selected_item = components[component_selection - 1][x]
                     print("\nYou have selected the", components[component_selection - 1][x])
                     ordered_items.append(components[component_selection - 1][x])
@@ -29,6 +31,17 @@ def item_selection():
         except ValueError:
             print("\nInvalid input\nYou must enter a number between 1", len(components[component_selection - 1]))
 
+def quantity():
+    while True:
+        try:
+            num_quantity = int(input(str("How many " + selected_item + "s would you like?\n(You can only order up to 5x " + selected_item + "s)\n\nPlease enter the quantity: ")))
+            if num_quantity >= 1 and num_quantity <= 5:
+                break
+            else:
+                print("\nYou must enter a number between 1 and 5")
+        except:
+            print("Invalid Input\nYou must enter a number between 1 and 5")
+    
 
 
 for x in range(len(component_types)):
@@ -43,9 +56,16 @@ while True:
             print("\nYou must enter a number between 1 and 8")
     except:
         print("\nInvalid input\nYou must enter a number between 1 and 8")
-
 print("\nYou have selected " + component_types[component_selection - 1])
 item_selection()
-print("How many of", selected_item )
+quantity()
+
+
+    
+
+
+
+
+#quantity()
 for x in range(len(ordered_items)):
     print(ordered_items[x])
