@@ -46,6 +46,7 @@ def item_selection():
             print("\nInvalid input\nYou must enter a number between 1", len(components[component_selected - 1]))
 
 def quantity():
+    global num_quantity
     while True:
         try:
             num_quantity = int(input(str("How many " + selected_item + "s would you like?\n(You can only order up to 5x " + selected_item + "s)\n\nPlease enter the quantity: ")))
@@ -57,13 +58,33 @@ def quantity():
                 print("\nYou must enter a number between 1 and 5")
         except:
             print("Invalid Input\nYou must enter a number between 1 and 5")
+
+def new_checkout():
+    print("\nYou have ordered the following items: ")
+    for x in range(len(ordered_items)):
+        print(str(x + 1) + ". " + ordered_items[x] + " | Unit price = $" + str(selected_item_cost) + " | Total = $" + str(item_costs[x]))
+    print("\nYour total for these " + str(num_quantity) + " is $" + str(sum(item_costs)))
+
+    print("\nWould you like to order another PC component or proceed to checkout?\n\nTo order another item enter 'N'\nTo proceed to checkout enter 'P'")
+    while True:
+        # Asks for letter and capitalises it
+        answer = input("\nPlease enter a letter: ").upper()
+        if answer == "N":
+            print("\nOrdering another PC component...")
+            pc_menu()
+            break
+        elif answer == "P":
+            print("\nProceeding to checkout...")
+            #checkout()
+            break
+        else:
+            print("The input must be 'N' or 'P'")
     
+def pc_menu():
+    component_selection()
+    item_selection()
+    quantity()
+    new_checkout()
 
-component_selection()
-item_selection()
-quantity()
+pc_menu()
 
-print("You have ordered the following items: ")
-for x in range(len(ordered_items)):
-    print(ordered_items[x] + " - $" + str(item_costs[x]))
-print("Your total is $" + str(sum(item_costs)))
