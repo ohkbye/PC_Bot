@@ -59,31 +59,58 @@ def quantity():
         except:
             print("Invalid Input\nYou must enter a number between 1 and 5")
 
-def new_checkout():
+def display_selection():
     print("\nYou have ordered the following items: ")
     for x in range(len(ordered_items)):
-        print(str(x + 1) + ". " + ordered_items[x] + " | Unit cost = $" + str(selected_item_cost) + " | Total = $" + str(item_costs[x]))
-    print("\nTotal order cost\n" + str(sum(item_costs)))
+        print(str(x + 1) + ". " + ordered_items[x] + " | Unit cost = $" + str(round(item_costs[x] / int(ordered_items[x][0]))) + " | Total = $" + str(item_costs[x]))
+    print("\nTotal order cost: $" + str(sum(item_costs)))
 
-    print("\nWould you like to order another PC component or proceed to checkout?\n\nTo order another item enter 'N'\nTo proceed to checkout enter 'P'")
+def remove_item():
+    print("\nWhich item would you like removed?")
+    print("Enter a number from the list above which matches the item you would like removed.")
+    try:
+        answer = int(input("\nPlease enter a number: "))
+        if answer >= 1 and answer <= len(ordered_items):
+            print("\nRemoving", ordered_items[answer - 1])
+            del ordered_items[answer - 1]
+            del item_costs[answer - 1]
+            display_selection()
+            new_checkout()
+        else:
+            print("\nYou must enter a number between 1 and", len(ordered_items))
+            remove_item()
+    except:
+        print("\nInvalid Input\nYou must enter a number between 1 and", len(ordered_items))
+        remove_item()
+
+
+def new_checkout():
+    print("\nWould you like to order another PC component or proceed to checkout?\n\nTo order another item enter 'N'\nTo remove an item that has been selected enter 'R'\nTo proceed to checkout enter 'P'")
     while True:
         # Asks for letter and capitalises it
         answer = input("\nPlease enter a letter: ").upper()
         if answer == "N":
             print("\nOrdering another PC component...")
             pc_menu()
-            break
+        elif answer == "R":
+            print("\nRemoving an item...")
+            if len(ordered_items) == 1:
+                print("\nYou have only ordered one item\nThere is no item that you can remove")
+                new_checkout()
+            else:
+                display_selection()
+                remove_item()
         elif answer == "P":
             print("\nProceeding to checkout...")
             #checkout()
-            break
         else:
-            print("The input must be 'N' or 'P'")
+            print("The input must be 'N', 'R' or 'P'")
     
 def pc_menu():
     component_selection()
     item_selection()
     quantity()
+    display_selection()
     new_checkout()
 
 pc_menu()
