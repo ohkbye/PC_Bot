@@ -6,6 +6,12 @@
 # Importing randint from random module
 from random import randint
 
+# List of random names
+names = ["Karlos", "Marcus", "Jaiden", "Railey", "Ivan", "James", "Joaquin", "Einstein", "Mikara", "Sharun", 
+"Tomas", "Matt", "Levi", "Dennis", "Ochre", "Carlos", "Navhil", "George", "Billy", "Noel"]
+# Customer details dictionary
+customer_details = {}
+
 # Creating variables and lists for the PC component ordering menu
 ordered_items = []
 item_costs = []
@@ -16,11 +22,8 @@ components = [["AMD CPU", "Intel CPU"], ["SSD", "HDD"], ["ATX Motherboard", "Mic
 ["Full Tower PC Case", "Mid Tower PC Case", "Mini Tower PC Case"]]
 component_cost = [[199, 239], [149, 99], [69, 59, 49], [79, 69, 59], [29, 39, 49], [269, 249], [29, 19], [49, 39, 29]]
 
-# List of random names
-names = ["Karlos", "Marcus", "Jaiden", "Railey", "Ivan", "James", "Joaquin", "Einstein", "Mikara", "Sharun", 
-"Tomas", "Matt", "Levi", "Dennis", "Ochre", "Carlos", "Navhil", "George", "Billy", "Noel"]
-# Customer details dictionary
-customer_details = {}
+# Payment methods
+payment_methods = ["Credit Card", "Internet Banking", "Online EFTPOS", "Bank Transfer", "Q Card", "Finance Now"]
 
 # Validates inputs to check if they are blank
 def not_blank(question):
@@ -28,7 +31,7 @@ def not_blank(question):
     while not valid:
         response = input(question)
         if response != "":
-            return response
+            return response.title()
         else:
             print("This cannot be blank")
 
@@ -54,16 +57,17 @@ def welcome():
 
 # Menu so that user can choose either delivery or click & collect
 def order_type():
+    global del_click
     print("\nWould you like your order delivered or click & collected?\n\nFor delivery enter 'D'\nFor click & collect enter 'C'")
     # Loops the code inside until user enters a valid input 'C' or 'D'
     while True:
         # Asks for letter and capitalises it
-        delivery = input("\nPlease enter a letter: ").upper()
-        if delivery == "C":
+        del_click = input("\nPlease enter a letter: ").upper()
+        if del_click == "C":
             print("\nYou have selected click & collect\n")
             clickcollect_info()
             break
-        elif delivery == "D":
+        elif del_click == "D":
             print("\nYou have selected delivery\n")
             delivery_info()
             break
@@ -106,11 +110,12 @@ def delivery_info():
 
 # Choose type of PC component
 def component_selection():
+    global component_selected
+    print("\nHere are the available types of PC components:")
     for x in range(len(component_types)):
         print(str(x + 1) + ")", component_types[x])
     print("\nWhat type of PC component would you like to order?\nEnter a number from the list above which matches the PC component you would like.")
     while True:
-        global component_selected
         try:
             component_selected = int(input("\nPlease enter a number: "))
             if component_selected >= 1 and component_selected <= 8:
@@ -123,17 +128,17 @@ def component_selection():
 
 # PC component ordering menu
 def item_selection():
+    global selected_item
+    global selected_item_cost
     print("\nHere are the available types of", component_types[component_selected - 1])
     for x in range(len(components[component_selected - 1])):
-        print(str(x + 1) + ")", components[component_selected - 1][x], "$" + str(component_cost[component_selected - 1][x]))
+        print(str(x + 1) + ")", components[component_selected - 1][x], "| $" + str(component_cost[component_selected - 1][x]))
     print("\nWhat type of", component_types[component_selected - 1], "would you like?")
     while True:
         try:
             num_input = int(input("Please enter a number: "))
             for x in range(len(components[component_selected - 1])):
                 if num_input == x + 1:
-                    global selected_item
-                    global selected_item_cost
                     selected_item = components[component_selected - 1][x]
                     selected_item_cost = component_cost[component_selected - 1][x]
                     print("\nYou have selected the", selected_item)
@@ -146,12 +151,14 @@ def item_selection():
 # Select quantity of items
 def quantity():
     global num_quantity
+    global total_cost
     while True:
         try:
             num_quantity = int(input(str("How many " + selected_item + "s would you like?\n(You can only order up to 5x " + selected_item + "s)\n\nPlease enter the quantity: ")))
             if num_quantity >= 1 and num_quantity <= 5:
                 ordered_items.append(str(num_quantity) + "x " + selected_item)  
-                item_costs.append(selected_item_cost * num_quantity)      
+                item_costs.append(selected_item_cost * num_quantity)
+                total_cost = sum(item_costs)
                 break
             else:
                 print("\nYou must enter a number between 1 and 5")
@@ -163,7 +170,7 @@ def display_selection():
     print("\nYou have ordered the following items: ")
     for x in range(len(ordered_items)):
         print(str(x + 1) + ". " + ordered_items[x] + " | Unit cost = $" + str(round(item_costs[x] / int(ordered_items[x][0]))) + " | Total = $" + str(item_costs[x]))
-    print("\nTotal order cost: $" + str(sum(item_costs)))
+    print("\nSubtotal: $" + str(sum(item_costs)))
 
 # Option to order another item or remove a currently selected item or proceed to checkout
 def new_checkout():
@@ -174,22 +181,26 @@ def new_checkout():
         if answer == "N":
             print("\nOrdering another PC component...")
             pc_menu()
+            break
         elif answer == "R":
             print("\nRemoving an item...")
             if len(ordered_items) == 1:
                 print("\nYou have only ordered one item\nThere is no item that you can remove")
                 new_checkout()
+                break
             else:
                 display_selection()
                 remove_item()
+                break
         elif answer == "P":
             print("\nProceeding to checkout...")
-            #checkout()
+            break
         else:
             print("The input must be 'N', 'R' or 'P'")
 
 # Removing an order
 def remove_item():
+    global total_cost
     print("\nWhich item would you like removed?")
     print("Enter a number from the list above which matches the item you would like removed.")
     try:
@@ -198,6 +209,7 @@ def remove_item():
             print("\nRemoving", ordered_items[answer - 1])
             del ordered_items[answer - 1]
             del item_costs[answer - 1]
+            total_cost = sum(item_costs)
             display_selection()
             new_checkout()
         else:
@@ -208,8 +220,71 @@ def remove_item():
         remove_item()
 
 # Checkout - Payment method
-
+def checkout():
+    global total_cost
+    global payment_method
+    print("\nYour details: ")
+    if del_click == "D":
+        total_cost += 5
+        print("Your order is for delivery\nThere is a $5 delivery fee")
+        print(f"\nCustomer Name: {customer_details['name']}\nCustomer Phone: {customer_details['phone']}\nCustomer Address: {customer_details['house']} {customer_details['street']}, {customer_details['suburb']}")
+        display_selection()
+        print("Delivery: $5\nTotal Order Cost: $" + str(total_cost))
+    elif del_click == "C":
+        print("Your order is for click & collect")
+        print(f"\nCustomer Name: {customer_details['name']}\nCustomer Phone: {customer_details['phone']}")
+        display_selection()
+        print("Click & Collect: FREE\nTotal Order Cost: $" + str(total_cost))
+    print("\nHow would you like to pay?\n\nHere are the available payment methods:")
+    for x in range(len(payment_methods)):
+        print(str(x + 1) + ")", payment_methods[x])
+    print("\nSelect a payment method")
+    while True:
+        try:
+            answer = int(input("\nPlease enter a number: "))
+            if answer >= 1 and answer <= 6:
+                print("\nYou have selected", payment_methods[answer - 1])
+                payment_method = payment_methods[answer - 1]
+                break
+            else:
+                print("\nYou must enter a number between 1 and 6")
+        except:
+            print("\nInvalid Input\nYou must enter a number between 1 and 6")
+        
+# Confirm order
+def order_confirmation():
+    print("\nTotal Order Cost: $" + str(total_cost) + "\nPayment Method:", payment_method)
+    print("\nWould you like to confirm the order?\nTo confirm the order enter 'Y'\nTo cancel the order enter 'N'")
+    while True:
+        answer = input("\nPlease enter a letter: ").upper()
+        if answer == "Y":
+            print("\nOrder Confirmed\nYour order has been placed and will be shipped tomorrow")
+            if del_click == "D":
+                print("Your order will arrive within 2-3 working days")
+            break
+        elif answer == "N":
+            print("\nYour order has been cancelled")
+            break
+        else:
+            print("The input must be 'Y' or 'N'")
+    
 # Option to restart the bot or to exit
+def new_exit():
+    print("\nWould you like to start another order or exit the bot\nTo start another order enter 'Y'\nTo exit the bot enter 'N'")
+    while True:
+        answer = input("\nPlease enter a letter: ").upper()
+        if answer == "Y":
+            print("\nStarting another order...")
+            customer_details.clear()
+            ordered_items.clear()
+            item_costs.clear()
+            main()
+            break
+        elif answer == "N":
+            print("\nExiting the bot...")
+            break
+        else:
+            print("The input must be 'Y' or 'N'")
 
 # PC Menu function
 def pc_menu():
@@ -230,6 +305,8 @@ def main():
     welcome()
     order_type()
     pc_menu()
-    
+    checkout()
+    order_confirmation()
+    new_exit()
 
 main()
