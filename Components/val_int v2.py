@@ -7,7 +7,7 @@ def val_int(low, high):
             else:
                 print(f"Please enter a number between {low} and {high}")
         except:
-            print("That is not a valid number")
+            print("Invalid input")
             print(f"Please enter a number between {low} and {high}")
 
 LOW = 1

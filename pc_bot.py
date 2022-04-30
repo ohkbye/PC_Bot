@@ -35,6 +35,18 @@ def not_blank(question):
         else:
             print("This cannot be blank")
 
+# Validates input to check if they are an integer
+def val_int(low, high):
+    while True:
+        try:
+            num = int(input("\nPlease enter a number: "))
+            if num >= low and num <= high:
+                return num
+            else:
+                print(f"\nYou must enter a number between {low} and {high}")
+        except:
+            print(f"\nInvalid input\nYou must enter a number between {low} and {high}")
+
 # Welcome message with random name
 def welcome():
     '''
@@ -115,15 +127,9 @@ def component_selection():
     for x in range(len(component_types)):
         print(str(x + 1) + ")", component_types[x])
     print("\nWhat type of PC component would you like to order?\nEnter a number from the list above which matches the PC component you would like.")
-    while True:
-        try:
-            component_selected = int(input("\nPlease enter a number: "))
-            if component_selected >= 1 and component_selected <= 8:
-                break
-            else:
-                print("\nYou must enter a number between 1 and 8")
-        except:
-            print("\nInvalid input\nYou must enter a number between 1 and 8")
+    LOW = 1
+    HIGH = 8
+    component_selected = val_int(LOW, HIGH)
     print("\nYou have selected " + component_types[component_selected - 1])
 
 # PC component ordering menu
@@ -134,36 +140,24 @@ def item_selection():
     for x in range(len(components[component_selected - 1])):
         print(str(x + 1) + ")", components[component_selected - 1][x], "| $" + str(component_cost[component_selected - 1][x]))
     print("\nWhat type of", component_types[component_selected - 1], "would you like?")
-    while True:
-        try:
-            num_input = int(input("Please enter a number: "))
-            for x in range(len(components[component_selected - 1])):
-                if num_input == x + 1:
-                    selected_item = components[component_selected - 1][x]
-                    selected_item_cost = component_cost[component_selected - 1][x]
-                    print("\nYou have selected the", selected_item)
-                    return
-            else:
-                print("\nYou must enter a number between 1 and", len(components[component_selected - 1]))
-        except:
-            print("\nInvalid input\nYou must enter a number between 1", len(components[component_selected - 1]))
-
+    LOW = 1
+    HIGH = len(components[component_selected - 1])
+    num_input = val_int(LOW, HIGH)
+    selected_item = components[component_selected - 1][num_input - 1]
+    selected_item_cost = component_cost[component_selected - 1][num_input - 1]
+    print("\nYou have selected the", selected_item)
+    
 # Select quantity of items
 def quantity():
     global num_quantity
     global total_cost
-    while True:
-        try:
-            num_quantity = int(input(str("How many " + selected_item + "s would you like?\n(You can only order up to 5x " + selected_item + "s)\n\nPlease enter the quantity: ")))
-            if num_quantity >= 1 and num_quantity <= 5:
-                ordered_items.append(str(num_quantity) + "x " + selected_item)  
-                item_costs.append(selected_item_cost * num_quantity)
-                total_cost = sum(item_costs)
-                break
-            else:
-                print("\nYou must enter a number between 1 and 5")
-        except:
-            print("Invalid Input\nYou must enter a number between 1 and 5")
+    print("How many " + selected_item + "s would you like?\n(You can only order up to 5x " + selected_item + "s)")
+    LOW = 1
+    HIGH = 5
+    num_quantity = val_int(LOW, HIGH)
+    ordered_items.append(str(num_quantity) + "x " + selected_item)  
+    item_costs.append(selected_item_cost * num_quantity)
+    total_cost = sum(item_costs)
 
 # Display items selected
 def display_selection():
@@ -203,21 +197,15 @@ def remove_item():
     global total_cost
     print("\nWhich item would you like removed?")
     print("Enter a number from the list above which matches the item you would like removed.")
-    try:
-        answer = int(input("\nPlease enter a number: "))
-        if answer >= 1 and answer <= len(ordered_items):
-            print("\nRemoving", ordered_items[answer - 1])
-            del ordered_items[answer - 1]
-            del item_costs[answer - 1]
-            total_cost = sum(item_costs)
-            display_selection()
-            new_checkout()
-        else:
-            print("\nYou must enter a number between 1 and", len(ordered_items))
-            remove_item()
-    except:
-        print("\nInvalid Input\nYou must enter a number between 1 and", len(ordered_items))
-        remove_item()
+    LOW = 1
+    HIGH = len(ordered_items)
+    answer = val_int(LOW, HIGH)
+    print("\nRemoving", ordered_items[answer - 1])
+    del ordered_items[answer - 1]
+    del item_costs[answer - 1]
+    total_cost = sum(item_costs)
+    display_selection()
+    new_checkout()
 
 # Checkout - Payment method
 def checkout():
@@ -239,17 +227,11 @@ def checkout():
     for x in range(len(payment_methods)):
         print(str(x + 1) + ")", payment_methods[x])
     print("\nSelect a payment method")
-    while True:
-        try:
-            answer = int(input("\nPlease enter a number: "))
-            if answer >= 1 and answer <= 6:
-                print("\nYou have selected", payment_methods[answer - 1])
-                payment_method = payment_methods[answer - 1]
-                break
-            else:
-                print("\nYou must enter a number between 1 and 6")
-        except:
-            print("\nInvalid Input\nYou must enter a number between 1 and 6")
+    LOW = 1
+    HIGH = 6
+    answer = val_int(LOW, HIGH)
+    print("\nYou have selected", payment_methods[answer - 1])
+    payment_method = payment_methods[answer - 1]
         
 # Confirm order
 def order_confirmation():
