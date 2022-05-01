@@ -46,7 +46,18 @@ def not_blank(question):
         if response != "":
             return response.title()
         else:
-            print("This cannot be blank")
+            print("\nThis cannot be blank")
+
+
+# Validates strings
+def check_string(question):
+    while True:
+        answer = input(question)
+        x = answer.isalpha()
+        if x == False:
+            print("\nInput must only contain letters")
+        else:
+            return answer.title()
 
 
 # Validates input to check if they are an integer
@@ -59,8 +70,8 @@ def val_int(low, high):
             else:
                 print(f"\nYou must enter a number between {low} and {high}")
         except:
-            print(f"\nInvalid input\nYou must enter a number between {low} and\
-{high}")
+            print(f"\nInvalid input\nYou must enter a number \
+between {low} and {high}")
 
 
 # Welcome message with random name
@@ -109,7 +120,7 @@ delivery enter 'D'\nFor click & collect enter 'C'")
 # Click & collect information - name and phone number
 def clickcollect_info():
     question = "Please enter your name: "
-    customer_details['name'] = not_blank(question)
+    customer_details['name'] = check_string(question)
     print(customer_details['name'])
 
     question = "Please enter your phone number: "
@@ -120,7 +131,7 @@ def clickcollect_info():
 # Delivery informtion - name, address and phone
 def delivery_info():
     question = "Please enter your name: "
-    customer_details['name'] = not_blank(question)
+    customer_details['name'] = check_string(question)
     print(customer_details['name'])
 
     question = "Please enter your phone number: "
@@ -132,11 +143,11 @@ def delivery_info():
     print(customer_details['house'])
 
     question = "Please enter your street name: "
-    customer_details['street'] = not_blank(question)
+    customer_details['street'] = check_string(question)
     print(customer_details['street'])
 
     question = "Please enter your suburb: "
-    customer_details['suburb'] = not_blank(question)
+    customer_details['suburb'] = check_string(question)
     print(customer_details['suburb'])
 
 
