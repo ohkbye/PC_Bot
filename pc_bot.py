@@ -74,6 +74,19 @@ def val_int(low, high):
 between {low} and {high}")
 
 
+# Checks phone number
+def check_phone(question):
+    while True:
+            answer = input(question)
+            if answer.isdigit() == True:
+                if len(answer) >= 7 and len(answer) <= 10:
+                    return answer
+                else:
+                    print("\nNZ phone numbers must have between 7 and 10 digits")
+            else:
+                print("\nPlease enter a number between 7 and 10 digits")
+
+
 # Welcome message with random name
 def welcome():
     '''
@@ -124,7 +137,7 @@ def clickcollect_info():
     print(customer_details['name'])
 
     question = "Please enter your phone number: "
-    customer_details['phone'] = not_blank(question)
+    customer_details['phone'] = check_phone(question)
     print(customer_details['phone'])
 
 
@@ -135,7 +148,7 @@ def delivery_info():
     print(customer_details['name'])
 
     question = "Please enter your phone number: "
-    customer_details['phone'] = not_blank(question)
+    customer_details['phone'] = check_phone(question)
     print(customer_details['phone'])
 
     question = "Please enter your house number: "

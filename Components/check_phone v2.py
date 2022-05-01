@@ -8,7 +8,5 @@ def check_phone():
                     print("\nNZ phone numbers must have between 7 and 10 digits")
             else:
                 print("\nPlease enter a number between 7 and 10 digits")
-
-
 print(check_phone())
 
