@@ -46,18 +46,20 @@ def not_blank(question):
         if response != "":
             return response.title()
         else:
-            print("\nThis cannot be blank")
+            print("\Input cannot be blank")
 
 
 # Validates strings
 def check_string(question):
     while True:
         answer = input(question)
-        x = answer.isalpha()
-        if x == False:
-            print("\nInput must only contain letters")
+        if answer:
+            if any(char.isdigit() for char in answer) == True:
+                print("\nInput must only contain letters")
+            else:
+                return answer.title()
         else:
-            return answer.title()
+            print("\nInput cannot be blank ")
 
 
 # Validates input to check if they are an integer
