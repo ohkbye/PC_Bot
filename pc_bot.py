@@ -343,15 +343,15 @@ def checkout():
     # Print details
     print("\nYour details: ")
     if del_click == "D":  # If del_click variable is equal to 'D' continue
-        total_cost += 5  # Adds 5 to the total_cost variable
-        print("Your order is for delivery\nThere is a $5 delivery fee")
+        total_cost += 9  # Adds 9 to the total_cost variable
+        print("Your order is for delivery\nThere is a $9 delivery fee")
         # Prints customer details
         print(f"\nCustomer Name: {customer_details['name']}\nCustomer Phone: \
 {customer_details['phone']}\nCustomer Address: {customer_details['house']} \
 {customer_details['street']}, {customer_details['suburb']}")
         display_selection()  # Call display_selection function
 # Print total order cost
-        print("Delivery: $5\nTotal Order Cost: $" + str(total_cost))
+        print("Delivery: $9\nTotal Order Cost: $" + str(total_cost))
     elif del_click == "C":  # If del_click variable is equal to 'C' continue
         print("Your order is for click & collect")
         # Print customer details
@@ -390,6 +390,10 @@ shipped tomorrow")
 # within 2-3 working days
             if del_click == "D":
                 print("Your order will arrive within 2-3 working days")
+# If del_click variable is equal to 'C' print when they will receive the items
+            if del_click == "C":
+                print("You will receive a text message when your items \
+are ready for pickup")
             break
         elif answer == "N":  # If answer variable is equal to 'N' cancel order
             print("\nYour order has been cancelled")
