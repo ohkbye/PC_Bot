@@ -43,11 +43,18 @@ def not_blank(question):
     while True:  # Sets up while loop
         response = input(question)  # Asks for input(string)
 # If the response variable is not empty and does not contain
-# whitespace return response
+# whitespace continue
         if not response.isspace() and response:
-            return response.title()
-# Else if response variable is empty or contains whitespace
-# print error message
+            # If all characters in the response variable only contain
+            # letters of the alphabets and number return response
+            if all(char.isalpha() or char.isdigit() for char in response):
+                return response.title()
+# Print error message if response contains anything other than letters
+# of the alphabet or numbers
+            else:
+                print("\nInput must only contain letters and numbers")
+# Else if response variable is empty, contains whitespaces print
+# error message
         else:
             print("\nInput cannot be blank")
 
@@ -62,12 +69,13 @@ def check_string(question):
 # whitespace continue
         if not answer.isspace() and answer:
             # Checks each character in the answer variable to see if
-            # it is a number
-            if any(char.isdigit() for char in answer) is True:
-                # If answer contains numbers print error message
+            # it is either a letter from the alphabet or space
+            if all(char.isalpha() or char.isspace() for char in answer):
+                return answer.title()  # Return answer in title class
+            else:
+                # If answer contains anything besides a letter
+                # from the alphabet or spaces print error message
                 print("\nInput must only contain letters")
-            else:  # Else return answer
-                return answer.title()
         else:  # Else print error message
             print("\nInput cannot be blank ")
 
@@ -100,12 +108,13 @@ def check_phone(question):
             answer = input(question)  # Asks for input(string)
 # If the answer variable contains a number continue
             if answer.isdigit() is True:
-                # If length of answer is greater or equal to 7 and less or equal
-                # to 10 return answer
+                # If length of answer is greater or equal to 7 and less or
+                # equal to 10 return answer
                 if len(answer) >= 7 and len(answer) <= 10:
                     return answer
                 else:  # Else print error message
-                    print("\nNZ phone numbers must have between 7 and 10 digits")
+                    print("\nNZ phone numbers must have between 7 and 10 \
+digits")
             else:  # Else print error message
                 print("\nPlease enter a number between 7 and 10 digits")
 
@@ -136,7 +145,7 @@ def order_type():
     global del_click  # Makes del_click a global variable
     print("\nWould you like your order delivered or click & collected?\n\nFor \
 delivery enter 'D'\nFor click & collect enter 'C'")
-    while True:  # Loops the code inside until user enters a valid input 'C' or 'D'
+    while True:  # Loops the code inside until valid input 'C' or 'D'
         # Asks for input(string) and capitalises it
         del_click = input("\nPlease enter a letter: ").upper()
 # If del_click variable is equal to 'C' call click & collect function
@@ -228,7 +237,7 @@ def item_selection():
     print("\nWhat type of", component_types[component_selected - 1],
           "would you like?")
     LOW = 1  # Set LOW variable to 1
-# Sets HIGH variable to length of components list within the component types list
+# Sets HIGH variable to length of components list
     HIGH = len(components[component_selected - 1])
 # Sets num_input to what the val_int function returns
     num_input = val_int(LOW, HIGH)
@@ -273,12 +282,14 @@ def new_checkout():
     # Asks user if they want to order another component, remove an item or
     # proceed to checkout
     print("\nWould you like to order another PC component, remove an item that \
-has been ordered or proceed to checkout?\n\nTo order another item enter 'N'\nTo \
-remove an item that has been selected enter 'R'\nTo proceed to checkout enter 'P'")
+has been ordered or proceed to checkout?\n\nTo order another item enter \
+'N'\nTo remove an item that has been selected enter 'R'\nTo proceed to \
+checkout enter 'P'")
     while True:  # Sets up while loop
-        # Asks for letter and capitalises it
-        answer = input("\nPlease enter a letter: ").upper()  # Asks for input(string)
-        if answer == "N":  # If answer variable is equal to 'N' call pc_menu function
+        # # Asks for input(string) capitalises it
+        answer = input("\nPlease enter a letter: ").upper()
+        # If answer variable is equal to 'N' call pc_menu function
+        if answer == "N":
             print("\nOrdering another PC component...")
             pc_menu()
             break
@@ -295,7 +306,8 @@ you can remove")
                 display_selection()
                 remove_item()
                 break
-# If answer variable is equal to 'P' proceed to checkout by breaking out of the loop
+# If answer variable is equal to 'P' proceed to checkout by breaking out
+# of the loop
         elif answer == "P":
             print("\nProceeding to checkout...")
             break
@@ -310,10 +322,11 @@ def remove_item():
     print("Enter a number from the list above which matches the item you would \
 like removed.")
     LOW = 1  # Sets LOW variable to 1
-    HIGH = len(ordered_items)  # Sets HIGH variable to length of ordered_items list
+    # Sets HIGH variable to length of ordered_items list
+    HIGH = len(ordered_items)
     answer = val_int(LOW, HIGH)  # Set answer to what val_int function returns
     print("\nRemoving", ordered_items[answer - 1])
-# Delete the item in the ordered_items list with the index of the answer minus 1
+# Delete the item in the ordered_items list with the index of the answer - 1
     del ordered_items[answer - 1]
 # Delete the cost in the item_costs list with the index of the answer minus 1
     del item_costs[answer - 1]
@@ -389,7 +402,7 @@ shipped tomorrow")
 def new_exit():
     print("\nWould you like to start another order or exit the bot\nTo start \
 another order enter 'Y'\nTo exit the \
-bot enter 'N'")  # Asks user if they want to start another order or exit the bot
+bot enter 'N'")  # Asks user if they want to start another order or exit bot
     while True:  # Sets up while loop
         # Asks for input(string) and capitalises it
         answer = input("\nPlease enter a letter: ").upper()
